@@ -24,21 +24,18 @@ export class ExportService {
   }
 
   static async generatePdf(content: string, fileName: string): Promise<string> {
-    throw new Error('PDF Export temporarily disabled in production to avoid Vercel Function Invocation crash.');
-    /*
+    // Enable PDF export using /tmp for Vercel compatibility
+    const PDFDocument = require('pdfkit');
+    const filePath = path.join('/tmp', `${fileName}.pdf`);
     const doc = new PDFDocument();
-    const filePath = path.join(process.cwd(), 'uploads', `${fileName}.pdf`);
     const stream = fs.createWriteStream(filePath);
-    
     doc.pipe(stream);
     doc.fontSize(12).text(content);
     doc.end();
-
     return new Promise((resolve, reject) => {
       stream.on('finish', () => resolve(filePath));
       stream.on('error', reject);
     });
-    */
   }
 
   static async generateMd(content: string, fileName: string): Promise<string> {
