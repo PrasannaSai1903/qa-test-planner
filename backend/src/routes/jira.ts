@@ -5,8 +5,15 @@ const router = Router();
 
 router.post('/test-connection', async (req, res) => {
   const { baseUrl, email, apiToken } = req.body;
-  const isConnected = await JiraService.testConnection({ baseUrl, email, apiToken });
-  res.json({ isConnected });
+  try {
+    // Basic normalization: trim trailing slash to prevent double // in path construction
+    const normalizedUrl = baseUrl.replace(/\/$/, '');
+    const isConnected = await JiraService.testConnection({ baseUrl: normalizedUrl, email, apiToken });
+    res.json({ isConnected });
+  } catch (error: any) {
+    console.error('Test connection error:', error);
+    res.status(500).json({ error: error.message || 'Server crash during connection test' });
+  }
 });
 
 router.post('/fetch-story', async (req, res) => {
