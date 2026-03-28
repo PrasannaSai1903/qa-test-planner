@@ -1,5 +1,5 @@
 import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx';
-import PDFDocument from 'pdfkit';
+// import PDFDocument from 'pdfkit'; // REMOVED TO FIX VERCEL CRASH
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -24,6 +24,8 @@ export class ExportService {
   }
 
   static async generatePdf(content: string, fileName: string): Promise<string> {
+    throw new Error('PDF Export temporarily disabled in production to avoid Vercel Function Invocation crash.');
+    /*
     const doc = new PDFDocument();
     const filePath = path.join(process.cwd(), 'uploads', `${fileName}.pdf`);
     const stream = fs.createWriteStream(filePath);
@@ -36,6 +38,7 @@ export class ExportService {
       stream.on('finish', () => resolve(filePath));
       stream.on('error', reject);
     });
+    */
   }
 
   static async generateMd(content: string, fileName: string): Promise<string> {
@@ -44,3 +47,4 @@ export class ExportService {
     return filePath;
   }
 }
+
