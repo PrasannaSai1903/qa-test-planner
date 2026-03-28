@@ -1,10 +1,15 @@
 import { Router } from 'express';
 import multer from 'multer';
+import * as fs from 'fs';
 import * as path from 'path';
 import { TemplateService } from '../services/templateService';
 
 const router = Router();
-const upload = multer({ dest: 'uploads/' });
+const uploadDir = '/tmp/uploads';
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+const upload = multer({ dest: uploadDir });
 
 router.post('/upload', upload.single('template'), (req, res) => {
   if (!req.file) {
