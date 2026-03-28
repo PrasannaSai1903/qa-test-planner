@@ -18,7 +18,7 @@ export class ExportService {
     });
 
     const buffer = await Packer.toBuffer(doc);
-    const filePath = path.join(process.cwd(), 'uploads', `${fileName}.docx`);
+    const filePath = path.join('/tmp', `${fileName}.docx`);
     fs.writeFileSync(filePath, buffer);
     return filePath;
   }
@@ -42,7 +42,7 @@ export class ExportService {
   }
 
   static async generateMd(content: string, fileName: string): Promise<string> {
-    const filePath = path.join(process.cwd(), 'uploads', `${fileName}.md`);
+    const filePath = path.join('/tmp', `${fileName}.md`);
     fs.writeFileSync(filePath, content);
     return filePath;
   }
